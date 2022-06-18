@@ -1,43 +1,25 @@
 import { useContext, useEffect, useState } from 'react';
 import rough from 'roughjs/bundled/rough.esm';
 import styled from 'styled-components/macro';
-import { ShapeEnum } from '../../constants/ShapeEnum';
+import { getShapeEnumForShape } from '../../constants/ShapeEnum';
+import { ElementData } from '../../model/ElementsData';
 import { ShapeInfoProviderContext } from '../../provider/ShapeInfoProvider';
-
+import { createElement, findElementData, getNewElementsOnDraw, getPoint, updatElementPositionAndReturnElements } from './WhiteBoardUtils';
 export const CanvasWrapper = styled.canvas`
   width:100%;
   height:100%;
   padding:0 0.2rem;
-
 `
-export interface ElementData{
-  x1:number;
-  y1:number;
-  x2:number;
-  y2:number;
-  element:any;
-}
 const generator = rough.generator();
 
 export const WhiteBoard = () => {
-  const { shapeName } = useContext(ShapeInfoProviderContext);
-  const [elements , setElements]  = useState<ElementData[]>([]);
-  const [drawing , setDrawing] = useState(false);
-  const createElement = (x1:number  , y1:number , x2:number, y2:number , shape:string)=>{
-    switch(shape){
-      case ShapeEnum.Line:{
-        const element = generator.line(x1 , y1 , x2 , y2);
-        // generator.fillRect(x1 , y1 , x2 , y2);
-        return {x1 , y1 , x2, y2 , element}
-      }
 
-      case ShapeEnum.Rectangle:{
-        const element = generator.rectangle(x1 , y1 , x2-x1 , y2-y1);
-        return {x1 , y1 , x2, y2 , element};
-      }
-    }
-    
-  }
+  const { shapeName , setShapeName} = useContext(ShapeInfoProviderContext);
+  const [elements , setElements]  = useState<ElementData[]>([]);
+  const [drawing , setDrawing]  = useState(false);
+  const [moving , setMoving]= useState(false);
+
+  const [elementMoving , setMovingElement]= useState<ElementData | undefined>(undefined);
 
   useEffect(
     ()=>{
@@ -51,44 +33,55 @@ export const WhiteBoard = () => {
     },
   [elements])
 
-  useEffect(() => {
-   
-    
-  },[]);
+  const onMouseMove = (event:React.MouseEvent<HTMLCanvasElement>)=>{ 
 
-  const onMouseMove = (event:React.MouseEvent<HTMLCanvasElement>)=>{
-    if(!drawing){
+
+
+    if(moving && elementMoving!=null){
+
+      const movePoint = getPoint(event.clientX, event.clientY);
+      const newElementsData = updatElementPositionAndReturnElements(movePoint,elements,elementMoving,generator);
+      setElements(newElementsData ?? []);
+     }
+
+   if(drawing && shapeName!=null){
+      if(elements.length > 0){
+        const {point1} = elements[elements.length -1];
+        const point2 = getPoint(event.clientX , event.clientY)
+           const newElementsData =  getNewElementsOnDraw(shapeName,point1 , point2 , getShapeEnumForShape(shapeName) , generator, elements);
+           setElements(newElementsData ?? []);
+          }
+
+   }
+ 
+    }  
+
+  const onMouseDown = (event:React.MouseEvent<HTMLCanvasElement>)=>{
+    if(shapeName ==null ){
+
+      const movePoint = getPoint(event.clientX, event.clientY);
+      const newElementMoving= findElementData(elements, movePoint);
+      setMovingElement(newElementMoving);
+      setMoving(true);
+
       return;
     }
 
-    if(elements.length > 0){
-      const {x1 , y1} = elements[elements.length -1];
-      const newElementData = createElement(x1 , y1 ,event.clientX , event.clientY ,shapeName);
-      if(newElementData!=null){
-       const newElementsData = elements.map((elementData, index)=>{
-         if(index === elements.length - 1){
-          return newElementData;
-         }else{
-          return elementData
-         }
-       });
-       setElements(newElementsData)
-      }
-    }
-   
-  }
-
-  const onMouseDown = (event:React.MouseEvent<HTMLCanvasElement>)=>{
-    setDrawing(true);
-    const newElementData = createElement(event.clientX , event.clientY ,event.clientX , event.clientY, shapeName);
+    const point1 = getPoint(event.clientX, event.clientY);
+    const point2 = getPoint(event.clientX, event.clientY);
+    const newElementData = createElement(point1 ,point2, getShapeEnumForShape(shapeName), generator);
     if(newElementData !=null){
-      setElements((prevElements:ElementData[])=>[...prevElements , newElementData ])
+      setElements((prevElements:ElementData[])=>[...prevElements , newElementData ]);
+      setDrawing(true);
+      setMovingElement(undefined);
+      setMoving(false);
     }
   }
   const onMouseUp = (_event:React.MouseEvent<HTMLCanvasElement>)=>{
+    setShapeName?.(null);// set selected shape to null
     setDrawing(false);
-
-  }
+    setMovingElement(undefined);
+;  }
   
   return (
     <CanvasWrapper
@@ -98,6 +91,7 @@ export const WhiteBoard = () => {
       onMouseUp={onMouseUp}
       width={window.innerWidth}
       height={window.innerHeight}
-    ></CanvasWrapper>
+    >
+    </CanvasWrapper>
   );
 }

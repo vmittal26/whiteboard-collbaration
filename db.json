@@ -1,0 +1,10 @@
+{
+  "shapes": [
+    { "id": 1, "name": "Rectangle", "path":"rectangle"},
+    { "id": 2, "name": "Line", "path":"line"},
+    { "id": 3, "name": "Circle", "path":"circle"},
+    { "id": 4, "name": "Oval", "path":"oval"},
+    { "id": 5, "name": "Square", "path":"square"},
+    { "id": 6, "name": "Diamond", "path":"diamond"}
+  ]
+}
