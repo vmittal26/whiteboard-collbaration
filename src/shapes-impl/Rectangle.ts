@@ -6,6 +6,9 @@ export class Rectangle extends AbstractShape {
 
   constructor(x1: number, x2: number, y1: number, y2: number, generator: any) {
     super(x1, x2, y1, y2, generator);
+
+    this.moveElement = this.moveElement;
+    this.isWithinElement = this.isWithinElement;
   }
   public generate = () => {
     return this.generator.rectangle(this.x1, this.y1, this.x2 -this.x1, this.y2 - this.y1);

@@ -4,8 +4,6 @@ import { AbstractShape } from "./AbstractShape";
 
 export class Line extends AbstractShape {
   public moveElement = (c: Point) => {
-
-
     return this;
   };
   constructor(x1: number, x2: number, y1: number, y2: number, generator: any) {

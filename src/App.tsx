@@ -1,28 +1,23 @@
-import "font-awesome/css/font-awesome.css";
-import "./App.css";
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home/Home';
+import WhiteBoardHome from './pages/WhiteBoardHome/WhiteBoardHome';
 
-import { AppWrapper, ToolBarWrapper, WhiteBoardWrapper } from "./AppJss";
-import { ToolBar } from "./components/ToolBar/ToolBar";
-import { WhiteBoard } from "./components/WhiteBoard/WhiteBoard";
-import { ShapeInfoProvider } from "./provider/ShapeInfoProvider";
-import { ShapesDataProvider } from "./provider/ShapesDataProvider";
 
 function App() {
-  return (
-    <AppWrapper>
-      <ShapesDataProvider>
-      <ShapeInfoProvider>
-     
-        <WhiteBoardWrapper>
-          <WhiteBoard />
-        </WhiteBoardWrapper>
-        <ToolBarWrapper>
-          <ToolBar />
-        </ToolBarWrapper>
-      </ShapeInfoProvider>
-      </ShapesDataProvider>
-    </AppWrapper>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route
+                        path="/whiteboard/:roomId"
+                        element={<WhiteBoardHome  />}
+                    ></Route>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;

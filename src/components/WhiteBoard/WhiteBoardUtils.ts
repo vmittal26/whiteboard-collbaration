@@ -1,3 +1,4 @@
+import { IShape } from './../../shapes-impl/IShape';
 import { ShapeEnum } from "../../constants/ShapeEnum";
 import { Point } from "../../model/Point";
 import { getShapesToImplMapper } from "../../shapes-metadata/ShapesMetadata";
@@ -45,16 +46,16 @@ export const getNewElementsOnDraw = (
 
 export const findElementData = (
     elementsData: ElementData[],
-    point: Point
+    point: Point,
   ) => {
-    return elementsData.find(elementData=> elementData.shapeImpl?.isWithinElement(point));
+    return elementsData?.find(elementData=> elementData?.shapeImpl?.isWithinElement(point));
   };
 
 export const findElementDataForPoint = (
   elementData: ElementData,
   point: Point
 ) => {
-  return elementData.shapeImpl?.isWithinElement(point);
+  return elementData?.shapeImpl?.isWithinElement(point);
 };
 export const updatElementPositionAndReturnElements = (
   movePoint: Point,

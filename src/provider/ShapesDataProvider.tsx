@@ -12,7 +12,7 @@ export const ShapesDataProvider = (props:{children: React.ReactNode}) => {
 
   const [shapes , setShapes] = useState<Shape[]>([]);
 
- 
+  
   useEffect(()=>{
 
     const fetchShapes = async()=>{
