@@ -17,6 +17,7 @@ export class Line extends AbstractShape {
     const a = { x: this.x1, y: this.y1 };
     const b = { x: this.x2, y: this.y2 };
     const offset = distance(a, b) - (distance(a, c) + distance(b, c));
-    return Math.abs(offset) < 1;
+    const isPresent =   Math.abs(offset) < 1;
+    return isPresent;
   };
 }

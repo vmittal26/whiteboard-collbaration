@@ -27,11 +27,13 @@ export const getNewElementsOnDraw = (
   point2: Point,
   shapeEnum: ShapeEnum,
   generator: any,
-  elements: ElementData[]
+  elements: ElementData[],
+  functionMap:Map<string, IShape>
 ) => {
   if (shape === shapeEnum) {
     const newElementData = createElement(point1, point2, shapeEnum, generator);
     if (newElementData != null) {
+      functionMap.set(newElementData?.id, newElementData?.shapeImpl!);
       const newElementsData = elements.map((elementData, index) => {
         if (index === elements.length - 1) {
           return newElementData;

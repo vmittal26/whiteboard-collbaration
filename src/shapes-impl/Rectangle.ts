@@ -20,7 +20,8 @@ export class Rectangle extends AbstractShape {
     const maxX = Math.max(this.x1, this.x2);
     const minY = Math.min(this.y1, this.y2);
     const maxY = Math.max(this.y1, this.y2);
-    return point.x > minX && point.x < maxX && point.y > minY && point.y < maxY;
+    const isPresent =  point.x > minX && point.x < maxX && point.y > minY && point.y < maxY;
+   return isPresent;
   }
 
   public moveElement = (movePoint:Point)=>{

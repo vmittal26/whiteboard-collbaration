@@ -65,7 +65,7 @@ export const WhiteBoard = () => {
       if(elementsData.length > 0){
         const {point1} = elementsData[elementsData.length -1];
         const point2 = getPoint(event.clientX , event.clientY)
-           const newElementsData =  getNewElementsOnDraw(shapeName,point1 , point2 , getShapeEnumForShape(shapeName) , generator, elementsData);
+           const newElementsData =  getNewElementsOnDraw(shapeName,point1 , point2 , getShapeEnumForShape(shapeName) , generator, elementsData,functionMap);
           pushElementsToServer(newElementsData, userName, roomId);
           }
          
