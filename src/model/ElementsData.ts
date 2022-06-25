@@ -6,6 +6,8 @@ export interface ElementData{
     id:string;
     point1:Point;
     point2:Point;
+    offSetX?:number;
+    offSetY?:number;
     element:any;
     shapeEnum:ShapeEnum;
     shapeImpl?:IShape;

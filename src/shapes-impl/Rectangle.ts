@@ -25,10 +25,14 @@ export class Rectangle extends AbstractShape {
   }
 
   public moveElement = (movePoint:Point)=>{
-    const point2 = getPoint(movePoint.x +(this.x2  - this.x1),this.y2 + Math.round(movePoint.y - this.y1));
+    const width = this.x2 - this.x1;
+    const height = this.y2 - this.y1;
 
-    this.setX1(movePoint.x);
-    this.setY1(movePoint.y);
+    const point1 = getPoint((movePoint.x - this.offSetX), (movePoint.y -this.offSetY));
+    const point2 = getPoint((movePoint.x - this.offSetX) +(width), (movePoint.y -this.offSetY) + height)
+
+    this.setX1(point1.x);
+    this.setY1(point1.y);
     this.setX2(point2.x);
     this.setY2(point2.y);
 

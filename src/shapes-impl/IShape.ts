@@ -6,5 +6,6 @@ export interface IShape{
 
     getPoint1:()=>Point;
     getPoint2:()=>Point;
-
+    setOffsetX:(offSetX:number)=>void;
+    setOffsetY:(offSetY:number)=>void;
 };

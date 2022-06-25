@@ -76,8 +76,15 @@ export const WhiteBoard = () => {
   const onMouseDown = (event:React.MouseEvent<HTMLCanvasElement>)=>{
     if(shapeName ==null ){
 
+      // sets the element to be selected
       const movePoint = getPoint(event.clientX, event.clientY);
       const newElementMoving= findElementData(elementsData, movePoint);
+      if(newElementMoving!=null){
+        const offSetX = event.clientX - newElementMoving.point1.x;
+        const offSetY = event.clientY - newElementMoving.point1.y;
+        newElementMoving.shapeImpl?.setOffsetX(offSetX);
+        newElementMoving.shapeImpl?.setOffsetY(offSetY);
+      }
       setMovingElement(newElementMoving);
       setMoving(true);
       return;

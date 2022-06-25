@@ -7,6 +7,8 @@ export abstract class AbstractShape implements IShape{
     protected x2:number = 0;
     protected y1:number = 0;
     protected y2:number = 0;
+    protected offSetX: number = 0;
+    protected offSetY: number = 0;
     protected generator:any;
 
     constructor(x1:number, x2: number , y1:number , y2:number,generator:any){
@@ -56,6 +58,14 @@ export abstract class AbstractShape implements IShape{
 
     public getGenerator =()=>{
         return this.generator;
+    }
+
+    public setOffsetX = (offSetX:number)=>{
+        this.offSetX = offSetX;
+    }
+
+    public setOffsetY = (offSetY:number)=>{
+        this.offSetY = offSetY;
     }
     
 }
